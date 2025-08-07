@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>New Tab</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="logo">
+    <div class="coins">
+        <div class="avers">
+            <div>
+                <div class="coin -one"></div>
+                <div class="coin -two"></div>
+                <div class="coin -three"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dob-template" class="hide">
+    <form class="form" method="post">
+        <h1 id="dob" class="age-label">When were you born?</h1>
+        <footer>
+            <label for="date"><input type="date" name="date" id="date"></label>
+            <button type="submit">Motivate</button>
+        </footer>
+    </form>
+</div>
+
+<div id="age-template" class="hide">
+    <h1 class="age-label hide">AGE</h1>
+    <h2 class="count"><span id="year"></span><sup>.<span id="milliseconds"></span></sup></h2>
+</div>
+
+<script src="app/app.js"></script>
+</body>
+</html>
