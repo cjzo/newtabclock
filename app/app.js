@@ -1,84 +1,40 @@
-(function(){
+document.addEventListener('DOMContentLoaded', function () {
+  let localStorageData, parsingData;
 
-var $  = document.getElementById.bind(document);
-var $$ = document.querySelectorAll.bind(document);
-
-var App = function($el){
-  this.$el = $el;
-  this.load();
-
-  this.$el.addEventListener(
-    'submit', this.submit.bind(this)
-  );
-
-  if (this.dob) {
-    this.renderAgeLoop();
+  localStorageData = localStorage.getItem('birthdayDate');
+  if (localStorageData) {
+      renderAgeLoop();
   } else {
-    this.renderChoose();
+      document.getElementById('dob-template').style.display = 'block';
   }
-};
 
-App.fn = App.prototype;
+  document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
 
-App.fn.load = function(){
-  var value;
+      let birthdayDateInput = document.getElementById('date');
+      let birthdayDate = birthdayDateInput.valueAsDate;
 
-  if (value = localStorage.dob)
-    this.dob = new Date(parseInt(value));
-};
+      if (birthdayDate) {
+          localStorage.setItem('birthdayDate', birthdayDate.getTime());
+          document.getElementById('dob-template').style.display = 'none';
+          renderAgeLoop();
+      } else {
+          return 'incorrect date';
+      }
+  });
 
-App.fn.save = function(){
-  if (this.dob)
-    localStorage.dob = this.dob.getTime();
-};
+  function renderAgeLoop() {
+      localStorageData = localStorage.getItem('birthdayDate');
+      setInterval(function () {
+          parsingData = new Date(parseInt(localStorageData));
+          let now = new Date();
+          let duration = now - parsingData;
+          let years = duration / 31556900000; // 1 year in milliseconds
 
-App.fn.submit = function(e){
-  e.preventDefault();
-
-  var input = this.$$('input')[0];
-  if ( !input.valueAsDate ) return;
-
-  this.dob = input.valueAsDate;
-  this.save();
-  this.renderAgeLoop();
-};
-
-App.fn.renderChoose = function(){
-  this.html(this.view('dob')());
-};
-
-App.fn.renderAgeLoop = function(){
-  this.interval = setInterval(this.renderAge.bind(this), 100);
-};
-
-App.fn.renderAge = function(){
-  var now       = new Date
-  var duration  = now - this.dob;
-  var years     = duration / 31556900000;
-
-  var majorMinor = years.toFixed(9).toString().split('.');
-
-  requestAnimationFrame(function(){
-    this.html(this.view('age')({
-      year:         majorMinor[0],
-      milliseconds: majorMinor[1]
-    }));
-  }.bind(this));
-};
-
-App.fn.$$ = function(sel){
-  return this.$el.querySelectorAll(sel);
-};
-
-App.fn.html = function(html){
-  this.$el.innerHTML = html;
-};
-
-App.fn.view = function(name){
-  var $el = $(name + '-template');
-  return Handlebars.compile($el.innerHTML);
-};
-
-window.app = new App($('app'))
-
-})();
+          let majorMinor = years.toFixed(9).toString().split('.');
+          document.getElementById('year').textContent = majorMinor[0];
+          document.getElementById('milliseconds').textContent = majorMinor[1];
+      }, 100);
+      document.getElementById('age-template').style.display = 'block';
+  }
+});
