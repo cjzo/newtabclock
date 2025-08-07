@@ -1,7 +1,6 @@
-Motivation
-========
+Testing editing extensions
 
-Your age.
-
+Dmytrii Lysak
+https://github.com/Lysak/motivation
 
 ![](screenshot.png)
